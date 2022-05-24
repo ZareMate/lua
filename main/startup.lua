@@ -41,6 +41,10 @@ end
 function Snake()
   shell.run("worm")
 end
+function LightsBack()
+  inLightsMenu = false
+  selectedItem = 1
+end
 function Reboot()
   print("Rebooting...")
   sleep(1)
@@ -65,7 +69,8 @@ mainMenu = {
 lightsMenu={
   [1]= { text="Lights On", handler=LightsOn},
   [2]= { text="Alarm On", handler=AlarmOn},
-  [3]= { text="All Off", handler=Off}
+  [3]= { text="All Off", handler=Off},
+  [4]= { text="Back", handler=LightsBack}
 }
 
 --[[Printing Methods]]--
@@ -86,10 +91,14 @@ function onKeyPressed( key, menu )
   elseif key == keys.up then
     if selectedItem > 1 then
       selectedItem = selectedItem - 1
-	  end
+    else
+      selectedItem = #menu
+    end
   elseif key == keys.down then
     if selectedItem < #menu then
-	    selectedItem = selectedItem + 1 
+	    selectedItem = selectedItem + 1
+    else
+      selectedItem = 1 
 	  end
   end
 end

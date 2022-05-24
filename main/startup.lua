@@ -8,7 +8,7 @@ local inLightsMenu = false
 function Choice1()
   term.clear()
   term.setCursorPos(1,1)
-  term.write("Hello,my name is Nigga")
+  term.write("chuj")
   sleep(3)
 end
 

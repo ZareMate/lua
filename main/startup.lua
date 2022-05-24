@@ -99,4 +99,33 @@ function main()
   end
 end
 
+--[[Login]]--
+function login()
+  os.pullEvent = os.pullEventRaw
+  term.clear()
+  term.setCursorPos(1,1)
+  print("2137_OS_v1.3 Login Screen")
+  print("UserName: ZareMate")
+  write("Password: ")
+  function pass()
+  t = io.read()
+  if t == "nigga" then
+  print ("Access Granted.")
+  sleep(2)
+  term.clear()
+  term.setCursorPos(1,1)
+  else
+  print ("Incorrect Login Details.")
+  sleep(1)
+  term.clear()
+  term.setCursorPos(1,1)
+  print("2137_OS_v1.3 Login Screen")
+  print("UserName: ZareMate")
+  write("Password: ")
+  pass()
+  end
+  end
+  pass()
+end
+login()
 main()

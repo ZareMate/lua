@@ -28,6 +28,12 @@ function LightsOn()
   inLightsMenu = false
   selectedItem = 1
 end
+function AlarmOn()
+  redstone.setBundledOutput("top", colors.orange)
+  inLightsMenu = false
+  selectedItem = 1
+end
+end
 function LightsOff()
   redstone.setBundledOutput("top", 0)
   inLightsMenu = false
@@ -55,7 +61,8 @@ mainMenu = {
 }
 lightsMenu={
   [1]= { text="Lights On", handler=LightsOn},
-  [2]= { text="Lights Off", handler=LightsOff}
+  [2]= { text="Alarm On", handler=AlarmOn},
+  [3]= { text="All Off", handler=Off}
 }
 
 --[[Printing Methods]]--

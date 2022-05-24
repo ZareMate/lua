@@ -38,6 +38,9 @@ function Off()
   inLightsMenu = false
   selectedItem = 1
 end
+function Snake()
+  worm
+end
 function Reboot()
   print("Rebooting...")
   sleep(1)
@@ -54,9 +57,10 @@ end
 mainMenu = {
   [1] = { text = "Who amI?",handler=Choice1 },
   [2] = { text = "Light Controls",handler=Choice2 },
-  [3] = { text = "Reboot",handler=Reboot },
-  [4] = { text = "Exit",handler=Exit },
-  [5] = { text = "Edit mode",handler=Edit }
+  [3] = { text = "Snake",handler=Snake },
+  [4] = { text = "Reboot",handler=Reboot },
+  [5] = { text = "Exit",handler=Exit },
+  [6] = { text = "Edit mode",handler=Edit }
 }
 lightsMenu={
   [1]= { text="Lights On", handler=LightsOn},

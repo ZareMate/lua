@@ -127,5 +127,3 @@ function login()
 end
 login()
 main()
-
-sperma

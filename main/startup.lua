@@ -33,7 +33,6 @@ function AlarmOn()
   inLightsMenu = false
   selectedItem = 1
 end
-end
 function LightsOff()
   redstone.setBundledOutput("top", 0)
   inLightsMenu = false

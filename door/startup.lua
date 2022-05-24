@@ -23,39 +23,32 @@ function Choice2()
     onKeyPressed(key,lightsMenu)
   end
 end
-function LightsOn()
-  redstone.setBundledOutput("top", colors.white)
+function Open()
+  rs.setOutput("left",true)
   inLightsMenu = false
   selectedItem = 1
+  sleep(3)
+  os.reboot()
 end
-function LightsOff()
-  redstone.setBundledOutput("top", 0)
+function Close()
+  rs.setOutput("left",false)
   inLightsMenu = false
   selectedItem = 1
-end
-function Reboot()
-  print("Rebooting...")
-  sleep(1)
+  sleep(3)
   os.reboot()
 end
 function Exit()
-  os.shutdown()
-end
-function Edit()
   inMainMenu = false
 end
 
 --[[Menu Definitions]]--
 mainMenu = {
-  [1] = { text = "Who amI?",handler=Choice1 },
-  [2] = { text = "Light Controls",handler=Choice2 },
-  [3] = { text = "Reboot",handler=Reboot },
-  [4] = { text = "Exit",handler=Exit },
-  [5] = { text = "Edit mode",handler=Edit }
+  [1] = { text = "Door Control",handler=Choice2 },
+  [2] = { text = "Exit",handler=Exit }
 }
 lightsMenu={
-  [1]= { text="Lights On", handler=LightsOn},
-  [2]= { text="Lights Off", handler=LightsOff}
+  [1]= { text="Open Door", handler=Open},
+  [2]= { text="Close Door", handler=Close}
 }
 
 --[[Printing Methods]]--
@@ -99,4 +92,32 @@ function main()
   end
 end
 
+function login()
+  os.pullEvent = os.pullEventRaw
+  term.clear()
+  term.setCursorPos(1,1)
+  print("2137_OS_v1.3 Login Screen")
+  print("UserName: ZareMate")
+  write("Password: ")
+  function pass()
+  t = io.read()
+  if t == "nigga" then
+  print ("Access Granted.")
+  sleep(2)
+  term.clear()
+  term.setCursorPos(1,1)
+  else
+  print ("Incorrect Login Details.")
+  sleep(1)
+  term.clear()
+  term.setCursorPos(1,1)
+  print("2137_OS_v1.3 Login Screen")
+  print("UserName: ZareMate")
+  write("Password: ")
+  pass()
+  end
+  end
+  pass()
+end
+login()
 main()

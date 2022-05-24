@@ -39,7 +39,7 @@ function Off()
   selectedItem = 1
 end
 function Snake()
-  shell.run("snake.lua")
+  shell.run("worm")
 end
 function Reboot()
   print("Rebooting...")

@@ -127,6 +127,3 @@ function login()
 end
 login()
 main()
-
-sperma
-assdsada

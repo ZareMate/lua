@@ -3,6 +3,8 @@ local termWidth, termHeight = term.getSize()
 local selectedItem = 1
 local inMainMenu = true
 local inLightsMenu = false
+local color = "off"
+
 
 --[[Menu Methods]]--
 function Choice1()
@@ -24,37 +26,42 @@ function Choice2()
   end
 end
 function LightsOn()
-  redstone.setBundledOutput("top", colors.white)
-  inLightsMenu = false
-  selectedItem = 1
+  lightSystem("on", "white")
 end
 function AlarmOn()
-  redstone.setBundledOutput("top", colors.orange)
-  inLightsMenu = false
-  selectedItem = 1
+  lightSystem("on", "red")
 end
-function Off()
-  redstone.setBundledOutput("top", 0)
-  inLightsMenu = false
-  selectedItem = 1
+function LOff()
+  lightSystem("off", "white")
 end
-function Snake()
-  shell.run("worm")
+function AOff()
+  lightSystem("off", "red")
 end
 function LightsBack()
   inLightsMenu = false
   selectedItem = 1
 end
+function AllOff()
+  lightSystem("off", "white")
+  lightSystem("off", "red")
+end
+
+function Snake()
+  shell.run("worm")
+end
+
+function Edit()
+  inMainMenu = false
+end
+
 function Reboot()
   print("Rebooting...")
   sleep(1)
   os.reboot()
 end
+
 function Exit()
   os.shutdown()
-end
-function Edit()
-  inMainMenu = false
 end
 
 --[[Menu Definitions]]--
@@ -62,15 +69,17 @@ mainMenu = {
   [1] = { text = "Who amI?",handler=Choice1 },
   [2] = { text = "Light Controls",handler=Choice2 },
   [3] = { text = "Snake",handler=Snake },
-  [4] = { text = "Reboot",handler=Reboot },
-  [5] = { text = "Exit",handler=Exit },
-  [6] = { text = "Edit mode",handler=Edit }
+  [4] = { text = "Edit program",handler=Edit },
+  [5] = { text = "Reboot",handler=Reboot },
+  [6] = { text = "Exit",handler=Exit }
 }
 lightsMenu={
   [1]= { text="Lights On", handler=LightsOn},
   [2]= { text="Alarm On", handler=AlarmOn},
-  [3]= { text="All Off", handler=Off},
-  [4]= { text="Back", handler=LightsBack}
+  [3]= { text="Lights Off", handler=LOff},
+  [4]= { text="Alarm Off", handler=AOff},
+  [5]= { text="All Off", handler=AllOff},
+  [6]= { text="Back", handler=LightsBack}
 }
 
 --[[Printing Methods]]--
@@ -107,7 +116,41 @@ function onItemSelected( menu )
   menu[selectedItem].handler()
 end
 
---[[Main Method]]--
+--[[Light System]]--
+function lightSystem( op, type )
+--[[On functions]]--
+  if color == "off" and op == "on" and type == "white" then
+    redstone.setBundledOutput("top", colors.white)
+    color = "white"
+  elseif color == "off" and op == "on" and type == "red" then
+    redstone.setBundledOutput("top", colors.red)
+    color = "red"
+  elseif color == "white" and op == "on" and type == "red" then
+    redstone.setBundledOutput("top", colors.white + colors.red)
+    color = "both"
+  elseif color == "red" and op == "on" and type == "white" then
+    redstone.setBundledOutput("top", colors.white + colors.red)
+    color = "both"
+--[[Off functions]]--
+  elseif color == "both" and op == "off" and type == "white" then
+    redstone.setBundledOutput("top", colors.red)
+    color = "red"
+  elseif color == "both" and op == "off" and type == "red" then
+    redstone.setBundledOutput("top", colors.white)
+    color = "white"
+  elseif color == "white" and op == "off" and type == "white" then
+    redstone.setBundledOutput("top", 0)
+    color = "off"
+  elseif color == "red" and op == "off" and type == "red" then
+    redstone.setBundledOutput("top", 0)
+    color = "off"
+  else error("Light system error " .. op .. " " .. type .. " " .. color)
+  end
+  inLightsMenu = false
+  selectedItem = 1
+end
+
+--[[Main function]]--
 function main()
   while inMainMenu do
     term.clear()
@@ -118,31 +161,29 @@ function main()
   end
 end
 
---[[Login]]--
+--[[Login system]]--
 function login()
-  os.pullEvent = os.pullEventRaw
   term.clear()
   term.setCursorPos(1,1)
-  print("2137_OS_v1.4 Login Screen")
-  write("Password: ")
-  function pass()
-  t = io.read()
-  if t == "nigga" then
-  print ("Access Granted.")
-  sleep(2)
+  print("Login:")
+  local username = read()
   term.clear()
   term.setCursorPos(1,1)
+  print("Password:")
+  local password = read("*")
+  if username == "ZareMate" and password == "nigga" then
+    main()
+  elseif username == "zaremate" and password == "nigga" then
+    main()
+  elseif username == "Querdus" and password == "kebab" then
+    main()
+  elseif username == "querdus" and password == "kebab" then
+    main()
   else
-  print ("Incorrect Login Details.")
-  sleep(1)
-  term.clear()
-  term.setCursorPos(1,1)
-  print("2137_OS_v1.3 Login Screen")
-  write("Password: ")
-  pass()
+    print("Wrong Password!")
+    sleep(3)
+    os.reboot()
   end
-  end
-  pass()
 end
+
 login()
-main()

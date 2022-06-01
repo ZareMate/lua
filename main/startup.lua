@@ -4,7 +4,7 @@ local selectedItem = 1
 local inMainMenu = true
 local inLightsMenu = false
 local color = "off"
-
+os.pullEvent = os.pullEventRaw
 
 --[[Menu Methods]]--
 function Choice1()
@@ -52,6 +52,8 @@ end
 
 function Edit()
   inMainMenu = false
+  shell.run("edit "..shell.getRunningProgram())
+  os.reboot()
 end
 
 function Reboot()
@@ -131,7 +133,19 @@ function lightSystem( op, type )
   elseif color == "red" and op == "on" and type == "white" then
     redstone.setBundledOutput("top", colors.white + colors.red)
     color = "both"
---[[Off functions]]--
+  elseif color == "white" and op == "on" and type == "white" then
+    redstone.setBundledOutput("top", colors.white)
+    color = "white"
+  elseif color == "red" and op == "on" and type == "red" then
+    redstone.setBundledOutput("top", colors.red)
+    color = "red"
+  elseif color == "both" and op == "on" and type == "white" then
+    redstone.setBundledOutput("top", colors.white + colors.red)
+    color = "both"
+  elseif color == "both" and op == "on" and type == "red" then
+    redstone.setBundledOutput("top", colors.white + colors.red)
+    color = "both"
+
   elseif color == "both" and op == "off" and type == "white" then
     redstone.setBundledOutput("top", colors.red)
     color = "red"
@@ -144,7 +158,19 @@ function lightSystem( op, type )
   elseif color == "red" and op == "off" and type == "red" then
     redstone.setBundledOutput("top", 0)
     color = "off"
-  else error("Light system error " .. op .. " " .. type .. " " .. color)
+  elseif color == "off" and op == "off" and type == "white" then
+    redstone.setBundledOutput("top", 0)
+    color = "off"
+  elseif color == "off" and op == "off" and type == "red" then
+    redstone.setBundledOutput("top", 0)
+    color = "off"
+  elseif color == "white" and op == "off" and type == "red" then
+    redstone.setBundledOutput("top", colors.white)
+    color = "white"
+  elseif color == "red" and op == "off" and type == "white" then
+    redstone.setBundledOutput("top", colors.red)
+    color = "red"
+  else error("Light system error you tried to: Turn " .. op .. " color " .. type .. " when the state of color in memory is: " .. color)
   end
   inLightsMenu = false
   selectedItem = 1

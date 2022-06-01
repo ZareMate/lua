@@ -121,55 +121,60 @@ end
 --[[Light System]]--
 function lightSystem( op, type )
 --[[On functions]]--
-  if color == "off" and op == "on" and type == "white" then
-    redstone.setBundledOutput("top", colors.white)
-    color = "white"
-  elseif color == "off" and op == "on" and type == "red" then
-    redstone.setBundledOutput("top", colors.red)
-    color = "red"
-  elseif color == "white" and op == "on" and type == "red" then
-    redstone.setBundledOutput("top", colors.white + colors.red)
-    color = "both"
-  elseif color == "red" and op == "on" and type == "white" then
-    redstone.setBundledOutput("top", colors.white + colors.red)
-    color = "both"
-  elseif color == "white" and op == "on" and type == "white" then
-    redstone.setBundledOutput("top", colors.white)
-    color = "white"
-  elseif color == "red" and op == "on" and type == "red" then
-    redstone.setBundledOutput("top", colors.red)
-    color = "red"
-  elseif color == "both" and op == "on" and type == "white" then
-    redstone.setBundledOutput("top", colors.white + colors.red)
-    color = "both"
-  elseif color == "both" and op == "on" and type == "red" then
-    redstone.setBundledOutput("top", colors.white + colors.red)
-    color = "both"
-
-  elseif color == "both" and op == "off" and type == "white" then
-    redstone.setBundledOutput("top", colors.red)
-    color = "red"
-  elseif color == "both" and op == "off" and type == "red" then
-    redstone.setBundledOutput("top", colors.white)
-    color = "white"
-  elseif color == "white" and op == "off" and type == "white" then
-    redstone.setBundledOutput("top", 0)
-    color = "off"
-  elseif color == "red" and op == "off" and type == "red" then
-    redstone.setBundledOutput("top", 0)
-    color = "off"
-  elseif color == "off" and op == "off" and type == "white" then
-    redstone.setBundledOutput("top", 0)
-    color = "off"
-  elseif color == "off" and op == "off" and type == "red" then
-    redstone.setBundledOutput("top", 0)
-    color = "off"
-  elseif color == "white" and op == "off" and type == "red" then
-    redstone.setBundledOutput("top", colors.white)
-    color = "white"
-  elseif color == "red" and op == "off" and type == "white" then
-    redstone.setBundledOutput("top", colors.red)
-    color = "red"
+  if op == "on" then
+    if type == "white" then
+      if color == "off" then
+        rs.setBundledOutput("top", colors.white)
+        color = "white"
+      elseif color == "white" then
+        rs.setBundledOutput("top", colors.white)
+        color = "white"
+      elseif color == "red" then
+        redstone.setBundledOutput("top", colors.white + colors.red)
+        color = "both"
+      elseif color == "both" then
+        redstone.setBundledOutput("top", colors.white + colors.red)
+        color = "both"
+      end
+    elseif type == "red" then
+      if color == "off" then
+        rs.setBundledOutput("top", colors.red)
+        color = "red"
+      elseif color == "red" then
+        rs.setBundledOutput("top", colors.red)
+        color = "red"
+      elseif color == "white" then
+        redstone.setBundledOutput("top", colors.white + colors.red)
+        color = "both"
+      elseif color == "both" then
+        redstone.setBundledOutput("top", colors.white + colors.red)
+        color = "both"
+      end
+    end
+  elseif op == "off" then
+    if type == "white" then
+      if color == "white" then
+        rs.setBundledOutput("top", 0)
+        color = "off"
+      elseif color == "red" then
+        redstone.setBundledOutput("top", colors.red)
+        color = "red"
+      elseif color == "both" then
+        redstone.setBundledOutput("top", colors.red)
+        color = "red"
+      end
+    elseif type == "red" then
+      if color == "red" then
+        rs.setBundledOutput("top", 0)
+        color = "off"
+      elseif color == "white" then
+        redstone.setBundledOutput("top", colors.white)
+        color = "white"
+      elseif color == "both" then
+        redstone.setBundledOutput("top", colors.white)
+        color = "white"
+      end
+    end
   else error("Light system error you tried to: Turn " .. op .. " color " .. type .. " when the state of color in memory is: " .. color)
   end
   inLightsMenu = false

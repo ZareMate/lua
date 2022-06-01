@@ -7,14 +7,14 @@ local color = "off"
 os.pullEvent = os.pullEventRaw
 
 --[[Menu Methods]]--
-function Choice1()
+function Who()
   term.clear()
   term.setCursorPos(1,1)
   term.write("chuj")
   sleep(3)
 end
 
-function Choice2()
+function LightSystem()
   selectedItem = 1
   inLightsMenu=true
   while inLightsMenu do
@@ -42,8 +42,7 @@ function LightsBack()
   selectedItem = 1
 end
 function AllOff()
-  lightSystem("off", "white")
-  lightSystem("off", "red")
+  lightSystem("off", "both")
 end
 
 function Snake()
@@ -74,8 +73,8 @@ end
 
 --[[Menu Definitions]]--
 mainMenu = {
-  [1] = { text = "Who amI?",handler=Choice1 },
-  [2] = { text = "Light Controls",handler=Choice2 },
+  [1] = { text = "Who amI?",handler=Who },
+  [2] = { text = "Light Controls",handler=LightSystem },
   [3] = { text = "Snake",handler=Snake },
   [4] = { text = "Edit program",handler=Edit },
   [5] = { text = "Console",handler=Console },
@@ -83,11 +82,11 @@ mainMenu = {
   [7] = { text = "Exit",handler=Exit }
 }
 lightsMenu={
-  [1]= { text="Lights On", handler=LightsOn},
-  [2]= { text="Alarm On", handler=AlarmOn},
-  [3]= { text="Lights Off", handler=LOff},
-  [4]= { text="Alarm Off", handler=AOff},
-  [5]= { text="All Off", handler=AllOff},
+  [1]= { text="Lights On", handler=On},
+  [2]= { text="Alarm On", handler=On},
+  [3]= { text="Lights Off", handler=Off},
+  [4]= { text="Alarm Off", handler=Off},
+  [5]= { text="All Off", handler=Off},
   [6]= { text="Back", handler=LightsBack}
 }
 
@@ -181,6 +180,9 @@ function lightSystem( op, type )
         redstone.setBundledOutput("top", colors.white)
         color = "white"
       end
+    elseif type == "both" then
+      rs.setBundledOutput("top", 0)
+      color = "off"
     end
   else error("Light system error you tried to: Turn " .. op .. " color " .. type .. " when the state of color in memory is: " .. color)
   end

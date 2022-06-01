@@ -56,6 +56,12 @@ function Edit()
   os.reboot()
 end
 
+function Console()
+  term.clear()
+  term.setCursorPos(1,1)
+  inMainMenu = false
+end
+
 function Reboot()
   print("Rebooting...")
   sleep(1)
@@ -72,8 +78,9 @@ mainMenu = {
   [2] = { text = "Light Controls",handler=Choice2 },
   [3] = { text = "Snake",handler=Snake },
   [4] = { text = "Edit program",handler=Edit },
-  [5] = { text = "Reboot",handler=Reboot },
-  [6] = { text = "Exit",handler=Exit }
+  [5] = { text = "Console",handler=Console },
+  [6] = { text = "Reboot",handler=Reboot },
+  [7] = { text = "Exit",handler=Exit }
 }
 lightsMenu={
   [1]= { text="Lights On", handler=LightsOn},

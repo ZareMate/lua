@@ -27,11 +27,6 @@ function LightSystem()
   end
 end
 
-function LightsBack()
-  inLightsMenu = false
-  selectedItem = 1
-end
-
 function LightOn()
   lightSystem("on", "white")
 end
@@ -46,6 +41,10 @@ function AlarmOff()
 end
 function AllOff()
   lightSystem("off", "both")
+end
+function LightsBack()
+  inLightsMenu = false
+  selectedItem = 1
 end
 
 function Snake()

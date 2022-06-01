@@ -4,6 +4,7 @@ local selectedItem = 1
 local inMainMenu = true
 local inLightsMenu = false
 local color = "off"
+local cableSite = "top"
 os.pullEvent = os.pullEventRaw
 
 --[[Menu Methods]]--
@@ -25,21 +26,23 @@ function LightSystem()
     onKeyPressed(key,lightsMenu)
   end
 end
-function LightsOn()
+
+function LightsBack()
+  inLightsMenu = false
+  selectedItem = 1
+end
+
+function LightOn()
   lightSystem("on", "white")
+end
+function LightOff()
+  lightSystem("off", "white")
 end
 function AlarmOn()
   lightSystem("on", "red")
 end
-function LOff()
-  lightSystem("off", "white")
-end
-function AOff()
+function AlarmOff()
   lightSystem("off", "red")
-end
-function LightsBack()
-  inLightsMenu = false
-  selectedItem = 1
 end
 function AllOff()
   lightSystem("off", "both")
@@ -82,12 +85,12 @@ mainMenu = {
   [7] = { text = "Exit",handler=Exit }
 }
 lightsMenu={
-  [1]= { text="Lights On", handler=On},
-  [2]= { text="Alarm On", handler=On},
-  [3]= { text="Lights Off", handler=Off},
-  [4]= { text="Alarm Off", handler=Off},
-  [5]= { text="All Off", handler=Off},
-  [6]= { text="Back", handler=LightsBack}
+  [1]= { text="Lights On", handler=LightOn },
+  [2]= { text="Lights Off", handler=LightOff },
+  [3]= { text="Alarm On", handler=AlarmOn },
+  [4]= { text="Alarm Off", handler=AlarmOff },
+  [5]= { text="All Off", handler=AllOff },
+  [6]= { text="Back", handler=LightsBack }
 }
 
 --[[Printing Methods]]--
@@ -121,70 +124,70 @@ function onKeyPressed( key, menu )
 end
 
 function onItemSelected( menu )
-  menu[selectedItem].handler()
+  menu[selectedItem].handler(args)
 end
 
 --[[Light System]]--
-function lightSystem( op, type )
+function lightSystem( op, SetColors )
 --[[On functions]]--
   if op == "on" then
-    if type == "white" then
+    if SetColors == "white" then
       if color == "off" then
-        rs.setBundledOutput("top", colors.white)
+        rs.setBundledOutput(cableSite, colors.white)
         color = "white"
       elseif color == "white" then
-        rs.setBundledOutput("top", colors.white)
+        rs.setBundledOutput(cableSite, colors.white)
         color = "white"
       elseif color == "red" then
-        redstone.setBundledOutput("top", colors.white + colors.red)
+        redstone.setBundledOutput(cableSite, colors.white + colors.red)
         color = "both"
       elseif color == "both" then
-        redstone.setBundledOutput("top", colors.white + colors.red)
+        redstone.setBundledOutput(cableSite, colors.white + colors.red)
         color = "both"
       end
-    elseif type == "red" then
+    elseif SetColors == "red" then
       if color == "off" then
-        rs.setBundledOutput("top", colors.red)
+        rs.setBundledOutput(cableSite, colors.red)
         color = "red"
       elseif color == "red" then
-        rs.setBundledOutput("top", colors.red)
+        rs.setBundledOutput(cableSite, colors.red)
         color = "red"
       elseif color == "white" then
-        redstone.setBundledOutput("top", colors.white + colors.red)
+        redstone.setBundledOutput(cableSite, colors.white + colors.red)
         color = "both"
       elseif color == "both" then
-        redstone.setBundledOutput("top", colors.white + colors.red)
+        redstone.setBundledOutput(cableSite, colors.white + colors.red)
         color = "both"
       end
     end
   elseif op == "off" then
-    if type == "white" then
+    if SetColors == "white" then
       if color == "white" then
-        rs.setBundledOutput("top", 0)
+        rs.setBundledOutput(cableSite, 0)
         color = "off"
       elseif color == "red" then
-        redstone.setBundledOutput("top", colors.red)
+        redstone.setBundledOutput(cableSite, colors.red)
         color = "red"
       elseif color == "both" then
-        redstone.setBundledOutput("top", colors.red)
+        redstone.setBundledOutput(cableSite, colors.red)
         color = "red"
       end
-    elseif type == "red" then
+    elseif SetColors == "red" then
       if color == "red" then
-        rs.setBundledOutput("top", 0)
+        rs.setBundledOutput(cableSite, 0)
         color = "off"
       elseif color == "white" then
-        redstone.setBundledOutput("top", colors.white)
+        redstone.setBundledOutput(cableSite, colors.white)
         color = "white"
       elseif color == "both" then
-        redstone.setBundledOutput("top", colors.white)
+        redstone.setBundledOutput(cableSite, colors.white)
         color = "white"
       end
-    elseif type == "both" then
-      rs.setBundledOutput("top", 0)
+    elseif SetColors == "both" then
+      rs.setBundledOutput(cableSite, 0)
       color = "off"
     end
-  else error("Light system error you tried to: Turn " .. op .. " color " .. type .. " when the state of color in memory is: " .. color)
+  else error("Light system error you tried to: Turn " .. op .. " color " .. SetColors .. " when the state of color in memory is: " .. color)
   end
   inLightsMenu = false
   selectedItem = 1

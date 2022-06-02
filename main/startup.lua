@@ -2,9 +2,9 @@
 local termWidth, termHeight = term.getSize()
 local selectedItem = 1
 local inMainMenu = true
+local ActiveColor = 0
 local inLightsMenu = false
-local color = "off"
-local cableSite = "top"
+local CableSite = "top"
 os.pullEvent = os.pullEventRaw
 
 --[[Menu Methods]]--
@@ -28,19 +28,25 @@ function LightSystem()
 end
 
 function LightOn()
-  lightSystem("on", "white")
+  lightSystem("on", colors.white)
 end
 function LightOff()
-  lightSystem("off", "white")
+  lightSystem("off", colors.white)
+end
+function OrangeOn()
+  lightSystem("on", colors.orange)
+end
+function OrangeOff()
+  lightSystem("off", colors.orange)
 end
 function AlarmOn()
-  lightSystem("on", "red")
+  lightSystem("on", colors.red)
 end
 function AlarmOff()
-  lightSystem("off", "red")
+  lightSystem("off", colors.red)
 end
 function AllOff()
-  lightSystem("off", "both")
+  lightSystem("off", 65535)
 end
 function LightsBack()
   inLightsMenu = false
@@ -86,10 +92,12 @@ mainMenu = {
 lightsMenu={
   [1]= { text="Lights On", handler=LightOn },
   [2]= { text="Lights Off", handler=LightOff },
-  [3]= { text="Alarm On", handler=AlarmOn },
-  [4]= { text="Alarm Off", handler=AlarmOff },
-  [5]= { text="All Off", handler=AllOff },
-  [6]= { text="Back", handler=LightsBack }
+  [3]= { text="Orange On", handler=OrangeOn },
+  [4]= { text="Orange Off", handler=OrangeOff },
+  [5]= { text="Alarm On", handler=AlarmOn },
+  [6]= { text="Alarm Off", handler=AlarmOff },
+  [7]= { text="All Off", handler=AllOff },
+  [8]= { text="Back", handler=LightsBack }
 }
 
 --[[Printing Methods]]--
@@ -128,65 +136,16 @@ end
 
 --[[Light System]]--
 function lightSystem( op, SetColors )
---[[On functions]]--
+--[[Color Conversion]]--
+  ConvertColors = SetColors
+--[[Color Change]]--
   if op == "on" then
-    if SetColors == "white" then
-      if color == "off" then
-        rs.setBundledOutput(cableSite, colors.white)
-        color = "white"
-      elseif color == "white" then
-        rs.setBundledOutput(cableSite, colors.white)
-        color = "white"
-      elseif color == "red" then
-        redstone.setBundledOutput(cableSite, colors.white + colors.red)
-        color = "both"
-      elseif color == "both" then
-        redstone.setBundledOutput(cableSite, colors.white + colors.red)
-        color = "both"
-      end
-    elseif SetColors == "red" then
-      if color == "off" then
-        rs.setBundledOutput(cableSite, colors.red)
-        color = "red"
-      elseif color == "red" then
-        rs.setBundledOutput(cableSite, colors.red)
-        color = "red"
-      elseif color == "white" then
-        redstone.setBundledOutput(cableSite, colors.white + colors.red)
-        color = "both"
-      elseif color == "both" then
-        redstone.setBundledOutput(cableSite, colors.white + colors.red)
-        color = "both"
-      end
-    end
+    ActiveColor = colors.combine(ActiveColor, ConvertColors)
+    rs.setBundledOutput(CableSite ,ActiveColor)
   elseif op == "off" then
-    if SetColors == "white" then
-      if color == "white" then
-        rs.setBundledOutput(cableSite, 0)
-        color = "off"
-      elseif color == "red" then
-        redstone.setBundledOutput(cableSite, colors.red)
-        color = "red"
-      elseif color == "both" then
-        redstone.setBundledOutput(cableSite, colors.red)
-        color = "red"
-      end
-    elseif SetColors == "red" then
-      if color == "red" then
-        rs.setBundledOutput(cableSite, 0)
-        color = "off"
-      elseif color == "white" then
-        redstone.setBundledOutput(cableSite, colors.white)
-        color = "white"
-      elseif color == "both" then
-        redstone.setBundledOutput(cableSite, colors.white)
-        color = "white"
-      end
-    elseif SetColors == "both" then
-      rs.setBundledOutput(cableSite, 0)
-      color = "off"
-    end
-  else error("Light system error you tried to: Turn " .. op .. " color " .. SetColors .. " when the state of color in memory is: " .. color)
+    ActiveColor = colors.subtract(ActiveColor, ConvertColors)
+    rs.setBundledOutput(CableSite, ActiveColor)
+  else error("Light system error you tried to: Turn " .. op .. " Color: " .. SetColors .. " when the state of color in memory is: " .. ActiveColor)
   end
   inLightsMenu = false
   selectedItem = 1

@@ -57,6 +57,10 @@ function Snake()
   shell.run("worm")
 end
 
+function Calculator()
+  shell.run("calculator.lua")
+end
+
 function Edit()
   inMainMenu = false
   shell.run("edit "..shell.getRunningProgram())
@@ -84,10 +88,11 @@ mainMenu = {
   [1] = { text = "Who amI?",handler=Who },
   [2] = { text = "Light Controls",handler=LightSystem },
   [3] = { text = "Snake",handler=Snake },
-  [4] = { text = "Edit program",handler=Edit },
-  [5] = { text = "Console",handler=Console },
-  [6] = { text = "Reboot",handler=Reboot },
-  [7] = { text = "Exit",handler=Exit }
+  [4] = { text = "Calculator",handler=Calculator },
+  [5] = { text = "Edit",handler=Edit },
+  [6] = { text = "Console",handler=Console },
+  [7] = { text = "Reboot",handler=Reboot },
+  [8] = { text = "Exit",handler=Exit }
 }
 lightsMenu={
   [1]= { text="Lights On", handler=LightOn },

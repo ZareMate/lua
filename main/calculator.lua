@@ -274,7 +274,7 @@ while true do
 				term.setBackgroundColor(colors.black)
 				term.clear()
 				term.setCursorPos(1,1)
-				break
+				os.reboot()
 			end
 		elseif events[3] >= 39 and events[3] <= 43 then
 			if events[4] >= 7 and events[4] <= 9 then

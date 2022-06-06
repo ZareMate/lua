@@ -45,8 +45,11 @@ end
 function AlarmOff()
   lightSystem("off", colors.red)
 end
+function AllOn()
+  lightSystem("on", 65407)
+end
 function AllOff()
-  lightSystem("off", 65535)
+  lightSystem("off", 65407)
 end
 function LightsBack()
   inLightsMenu = false
@@ -101,8 +104,9 @@ lightsMenu={
   [4]= { text="Orange Off", handler=OrangeOff },
   [5]= { text="Alarm On", handler=AlarmOn },
   [6]= { text="Alarm Off", handler=AlarmOff },
-  [7]= { text="All Off", handler=AllOff },
-  [8]= { text="Back", handler=LightsBack }
+  [7]= { text="All On", handler=AllOn },
+  [8]= { text="All Off", handler=AllOff },
+  [9]= { text="Back", handler=LightsBack }
 }
 
 --[[Printing Methods]]--

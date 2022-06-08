@@ -2,9 +2,9 @@
 local termWidth, termHeight = term.getSize()
 local selectedItem = 1
 local inMainMenu = true
-local ActiveColor = 0
 local inLightsMenu = false
 local CableSite = "top"
+local ActiveColor = rs.getBundledOutput(CableSite)
 os.pullEvent = os.pullEventRaw
 
 --[[Menu Methods]]--
@@ -27,29 +27,29 @@ function LightSystem()
   end
 end
 
-function LightOn()
-  lightSystem("on", colors.white)
+function First()
+  lightSystem(colors.white)
 end
-function LightOff()
-  lightSystem("off", colors.white)
+function SecondOn()
+  lightSystem(colors.orange)
 end
-function OrangeOn()
-  lightSystem("on", colors.orange)
+function Third()
+  lightSystem(colors.magenta)
 end
-function OrangeOff()
-  lightSystem("off", colors.orange)
+function Fourth()
+  lightSystem(colors.yellow)
 end
-function AlarmOn()
-  lightSystem("on", colors.red)
+function Fifth()
+  lightSystem(colors.lime)
 end
-function AlarmOff()
-  lightSystem("off", colors.red)
+function Sixth()
+  lightSystem(colors.pink)
 end
-function AllOn()
-  lightSystem("on", 65407)
+function Alarm()
+  lightSystem(colors.red)
 end
-function AllOff()
-  lightSystem("off", 65407)
+function All()
+  lightSystem(65407)
 end
 function LightsBack()
   inLightsMenu = false
@@ -98,15 +98,15 @@ mainMenu = {
   [8] = { text = "Exit",handler=Exit }
 }
 lightsMenu={
-  [1]= { text="Lights On", handler=LightOn },
-  [2]= { text="Lights Off", handler=LightOff },
-  [3]= { text="Orange On", handler=OrangeOn },
-  [4]= { text="Orange Off", handler=OrangeOff },
-  [5]= { text="Alarm On", handler=AlarmOn },
-  [6]= { text="Alarm Off", handler=AlarmOff },
-  [7]= { text="All On", handler=AllOn },
-  [8]= { text="All Off", handler=AllOff },
-  [9]= { text="Back", handler=LightsBack }
+  [1] = { text = "First",handler=First },
+  [2] = { text = "Second",handler=SecondOn },
+  [3] = { text = "Third",handler=Third },
+  [4] = { text = "Fourth",handler=Fourth },
+  [5] = { text = "Fifth",handler=Fifth },
+  [6] = { text = "Sixth",handler=Sixth },
+  [7] = { text = "Alarm",handler=Alarm },
+  [8] = { text = "All (Off)",handler=All },
+  [9] = { text = "Back",handler=LightsBack }
 }
 
 --[[Printing Methods]]--
@@ -144,20 +144,30 @@ function onItemSelected( menu )
 end
 
 --[[Light System]]--
-function lightSystem( op, SetColors )
---[[Color Conversion]]--
-  ConvertColors = SetColors
---[[Color Change]]--
-  if op == "on" then
-    ActiveColor = colors.combine(ActiveColor, ConvertColors)
-    rs.setBundledOutput(CableSite ,ActiveColor)
-  elseif op == "off" then
-    ActiveColor = colors.subtract(ActiveColor, ConvertColors)
+function lightSystem(SetColors )
+  if SetColors == 65407 then
+    ActiveColor = 0
+    rs.setBundledOutput(CableSite,0)
+  elseif colors.test(ActiveColor, SetColors) then
+    ActiveColor = colors.subtract(ActiveColor, SetColors)
     rs.setBundledOutput(CableSite, ActiveColor)
-  else error("Light system error you tried to: Turn " .. op .. " Color: " .. SetColors .. " when the state of color in memory is: " .. ActiveColor)
+  else
+    ActiveColor = colors.combine(ActiveColor, SetColors)
+    rs.setBundledOutput(CableSite, ActiveColor)
   end
-  inLightsMenu = false
-  selectedItem = 1
+  SaveColors = ActiveColor
+  local file = io.open("lights", "w")
+  file:write(SaveColors)
+  file:close()
+end
+
+--[[Restore Light System]]--
+function RestoreLightSystem()
+  local Restore = io.open("lights", "r")
+  RestoredColors = tonumber(Restore:read())
+  rs.setBundledOutput(CableSite, RestoredColors)
+  ActiveColor = rs.getBundledOutput(CableSite)
+  Restore:close()
 end
 
 --[[Main function]]--
@@ -196,4 +206,5 @@ function login()
   end
 end
 
+RestoreLightSystem()
 login()

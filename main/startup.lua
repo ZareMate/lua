@@ -136,7 +136,7 @@ function onKeyPressed( key, menu )
     else
       selectedItem = 1 
 	  end
-  end
+  end  
 end
 
 function onItemSelected( menu )

@@ -33,7 +33,7 @@ function First()
   lightSystem(colors.white)
 end
 
-function SecondOn()
+function Second()
   lightSystem(colors.orange)
 end
 
@@ -110,7 +110,7 @@ mainMenu = {
 }
 lightsMenu = {
   [1] = { text = "First", handler = First },
-  [2] = { text = "Second", handler = SecondOn },
+  [2] = { text = "Second", handler = Second },
   [3] = { text = "Third", handler = Third },
   [4] = { text = "Fourth", handler = Fourth },
   [5] = { text = "Fifth", handler = Fifth },

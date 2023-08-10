@@ -23,7 +23,7 @@ else
     sdasdasdasdasd
 end
 
-while true then
+while true do
     print("nigger")
 end
 

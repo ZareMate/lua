@@ -1,4 +1,4 @@
---[[Smart Calculator by Cranium]]--
+--[[Smart Calculator by ZareMate]]
 
 local tX, tY = term.getSize()
 local calc = {}
@@ -7,7 +7,7 @@ local calc = {}
 calc.mode = false
 calc.inverse = false
 calc.hyp = false
-calc.sqrt = false 
+calc.sqrt = false
 calc.exp = false
 calc.asin = false
 calc.sin = false
@@ -97,81 +97,81 @@ local labels = {
 local function objGen()
 	local _objects = {}
 	local width = 9
-	for i=1, #labels do
+	for i = 1, #labels do
 		table.insert(_objects, {
-			x = (((i - 1)%width + 1)*5) - 1;
-			y = (math.ceil(i/width) * 3) + 4;
-			label = labels[i];
+			x = (((i - 1) % width + 1) * 5) - 1,
+			y = (math.ceil(i / width) * 3) + 4,
+			label = labels[i],
 			-- make operators different colors
 			color =
-			i == 1 and colors.blue or
-			i == 5 and colors.red or
-			i == 6 and colors.yellow or
-			i == 7 and colors.orange or
-			i == 8 and colors.white or
-			i == 9 and colors.red or
-			i == 10 and colors.blue or
-			i == 14 and colors.red or
-			i == 15 and colors.yellow or
-			i == 16 and colors.orange or
-			i == 17 and colors.white or
-			i == 18 and colors.white or
-			i == 19 and colors.blue or
-			i == 24 and colors.yellow or
-			i == 25 and colors.orange or
-			i == 26 and colors.white or
-			i == 27 and colors.white or
-			i == 28 and colors.blue or
-			i == 30 and colors.red or
-			i == 32 and colors.white or
-			i == 33 and colors.yellow or
-			i == 34 and colors.orange or
-			i == 35 and colors.white or
-			i == 36 and colors.white or
-			colors.lightGray;
+				i == 1 and colors.blue or
+				i == 5 and colors.red or
+				i == 6 and colors.yellow or
+				i == 7 and colors.orange or
+				i == 8 and colors.white or
+				i == 9 and colors.red or
+				i == 10 and colors.blue or
+				i == 14 and colors.red or
+				i == 15 and colors.yellow or
+				i == 16 and colors.orange or
+				i == 17 and colors.white or
+				i == 18 and colors.white or
+				i == 19 and colors.blue or
+				i == 24 and colors.yellow or
+				i == 25 and colors.orange or
+				i == 26 and colors.white or
+				i == 27 and colors.white or
+				i == 28 and colors.blue or
+				i == 30 and colors.red or
+				i == 32 and colors.white or
+				i == 33 and colors.yellow or
+				i == 34 and colors.orange or
+				i == 35 and colors.white or
+				i == 36 and colors.white or
+				colors.lightGray,
 			-- controls the highlight colors for operators
 			back =
-			i == 6 and
+				i == 6 and
 				calc.sin == true and colors.red or
 				calc.asin == true and colors.red or
 				calc.sinh == true and colors.red or
-			i == 8 and calc.mode == "deg" and colors.blue or
-			i == 15 and
+				i == 8 and calc.mode == "deg" and colors.blue or
+				i == 15 and
 				calc.cos == true and colors.red or
 				calc.acos == true and colors.red or
 				calc.cosh == true and colors.red or
-			i == 16 and calc.sqrt == true and colors.lightBlue or
-			i == 17 and calc.mode == "rad" and colors.blue or
-			i == 24 and
+				i == 16 and calc.sqrt == true and colors.lightBlue or
+				i == 17 and calc.mode == "rad" and colors.blue or
+				i == 24 and
 				calc.tan == true and colors.red or
 				calc.atan == true and colors.red or
 				calc.tanh == true and colors.red or
-			i == 26 and calc.inverse == true and colors.blue or
-			i == 30 and calc.pos == true and colors.white or
-			i == 33 and calc.log == true and colors.red or
-			i == 34 and calc.exp == true and colors.lightBlue or
-			i == 35 and calc.hyp == true and colors.blue or
-			colors.black;
+				i == 26 and calc.inverse == true and colors.blue or
+				i == 30 and calc.pos == true and colors.white or
+				i == 33 and calc.log == true and colors.red or
+				i == 34 and calc.exp == true and colors.lightBlue or
+				i == 35 and calc.hyp == true and colors.blue or
+				colors.black,
 		})
 	end
-return _objects
+	return _objects
 end
 
 local function draw()
 	term.setBackgroundColor(colors.black)
 	term.clear()
 	local objects = objGen()
-	for i=1, #objects do
+	for i = 1, #objects do
 		local obj = objects[i]
 		term.setTextColor(colors.gray)
 		term.setBackgroundColor(colors.black)
 		--draw the grid
-		for num, line in pairs{'+---+','|   |','+---+'} do
+		for num, line in pairs { '+---+', '|   |', '+---+' } do
 			term.setCursorPos(obj.x, obj.y + num - 1)
 			write(line)
 		end
 		--draw the button text and colors
-		term.setCursorPos(obj.x+1, obj.y+1)
+		term.setCursorPos(obj.x + 1, obj.y + 1)
 		term.setTextColor(obj.color)
 		term.setBackgroundColor(obj.back)
 		write(obj.label)
@@ -181,31 +181,31 @@ end
 local function display()
 	term.setBackgroundColor(colors.black)
 	term.setTextColor(colors.gray)
-	term.setCursorPos(2,1)
-	write("+"..string.rep("-", tX - 4).."+")
+	term.setCursorPos(2, 1)
+	write("+" .. string.rep("-", tX - 4) .. "+")
 	for i = 2, tY - 1 do
-		term.setCursorPos(2,i)
+		term.setCursorPos(2, i)
 		write("|")
-		term.setCursorPos(tX - 1,i)
+		term.setCursorPos(tX - 1, i)
 		write("|")
 	end
-	term.setCursorPos(2,tY)
-	write("+"..string.rep("-", tX - 4).."+")
+	term.setCursorPos(2, tY)
+	write("+" .. string.rep("-", tX - 4) .. "+")
 	term.setBackgroundColor(colors.lightGray)
 	for i = 2, 6 do
-		term.setCursorPos(4,i)
+		term.setCursorPos(4, i)
 		write(string.rep(" ", tX - 6))
 	end
 end
 --run the equation passed by the user.
 local function calculate(eq)
 	if table.concat(eq) == "()" then
-		eq = {"0"}
+		eq = { "0" }
 	elseif table.concat(eq) == "(.)" then
-		eq = {"0"}
+		eq = { "0" }
 	end
 	local sExpr = table.concat(eq)
-	local fnMath, sErr = loadstring("return "..sExpr)
+	local fnMath, sErr = loadstring("return " .. sExpr)
 	if not fnMath then
 		return "ERROR! Check syntax!"
 	end
@@ -219,7 +219,7 @@ local function calculate(eq)
 end
 
 -- function loop
-local equation = {"(", ")"}
+local equation = { "(", ")" }
 local result = "0"
 while true do
 	local rLen = 0
@@ -227,7 +227,7 @@ while true do
 	display()
 	term.setBackgroundColor(colors.lightGray)
 	term.setTextColor(colors.white)
-	term.setCursorPos(4,2)
+	term.setCursorPos(4, 2)
 	--write the equation
 	write(table.concat(equation))
 	--write the result
@@ -238,7 +238,7 @@ while true do
 			write("= ")
 			for num in string.gmatch(result, ".") do
 				rLen = rLen + 1
-				local pX,pY = term.getCursorPos()
+				local pX, pY = term.getCursorPos()
 				if pX >= 4 and pX <= 48 then
 					term.setCursorPos(rLen + 5, 4)
 					write(num)
@@ -266,14 +266,14 @@ while true do
 		term.setTextColor(colors.black)
 		write("= INFINITY")
 	end
-	local events = {os.pullEvent()}
+	local events = { os.pullEvent() }
 	--mouse click filter
 	if events[1] == "mouse_click" and events[2] == 1 then
 		if events[3] >= 44 and events[3] <= 48 then
 			if events[4] >= 7 and events[4] <= 9 then
 				term.setBackgroundColor(colors.black)
 				term.clear()
-				term.setCursorPos(1,1)
+				term.setCursorPos(1, 1)
 				os.reboot()
 			end
 		elseif events[3] >= 39 and events[3] <= 43 then
@@ -414,7 +414,7 @@ while true do
 					calc.log = false
 				end
 			end
-		-- backspace, clear, equals
+			-- backspace, clear, equals
 		elseif events[3] >= 24 and events[3] <= 28 then
 			if events[4] >= 7 and events[4] <= 9 then
 				if table.concat(equation) ~= "()" then
@@ -424,7 +424,7 @@ while true do
 				calc.mode = false
 				calc.inverse = false
 				calc.hyp = false
-				calc.sqrt = false 
+				calc.sqrt = false
 				calc.exp = false
 				calc.asin = false
 				calc.sin = false
@@ -437,15 +437,15 @@ while true do
 				calc.cosh = false
 				calc.log = false
 				calc.pos = false
-				equation = {"(", ")"}
+				equation = { "(", ")" }
 				result = "0"
 			elseif events[4] >= 16 and events[4] <= 18 then
-				if equation[#equation-1] == "+" or
-					equation[#equation-1] == "-" or
-					equation[#equation-1] == "*" or
-					equation[#equation-1] == "/" then
+				if equation[#equation - 1] == "+" or
+					equation[#equation - 1] == "-" or
+					equation[#equation - 1] == "*" or
+					equation[#equation - 1] == "/" then
 					table.insert(equation, #equation, "0")
-				elseif equation[#equation-1] == "^" then
+				elseif equation[#equation - 1] == "^" then
 					table.insert(equation, #equation, "1")
 				end
 				for i, v in pairs(calc) do
@@ -456,7 +456,7 @@ while true do
 				end
 				result = tostring(calculate(equation))
 			end
-		-- 3, 6, 9, decimal
+			-- 3, 6, 9, decimal
 		elseif events[3] >= 19 and events[3] <= 23 then
 			if events[4] >= 7 and events[4] <= 9 then
 				table.insert(equation, #equation, "3")
@@ -467,7 +467,7 @@ while true do
 			elseif events[4] >= 16 and events[4] <= 18 then
 				table.insert(equation, #equation, ".")
 			end
-		-- 2, 5, 8, positive/negative
+			-- 2, 5, 8, positive/negative
 		elseif events[3] >= 14 and events[3] <= 18 then
 			if events[4] >= 7 and events[4] <= 9 then
 				table.insert(equation, #equation, "2")
@@ -484,7 +484,7 @@ while true do
 					calc.pos = false
 				end
 			end
-		-- 1, 4, 7, 0
+			-- 1, 4, 7, 0
 		elseif events[3] >= 9 and events[3] <= 13 then
 			if events[4] >= 7 and events[4] <= 9 then
 				table.insert(equation, #equation, "1")
@@ -495,7 +495,7 @@ while true do
 			elseif events[4] >= 16 and events[4] <= 18 then
 				table.insert(equation, #equation, "0")
 			end
-		-- add, subtract, multiply, divide
+			-- add, subtract, multiply, divide
 		elseif events[3] >= 4 and events[3] <= 8 then
 			if events[4] >= 7 and events[4] <= 9 then
 				table.insert(equation, #equation, "+")
@@ -507,7 +507,7 @@ while true do
 				table.insert(equation, #equation, "/")
 			end
 		end
-	-- filter for keyboard presses
+		-- filter for keyboard presses
 	elseif events[1] == "key" then
 		if events[2] == 79 then
 			table.insert(equation, #equation, "1")
@@ -544,12 +544,12 @@ while true do
 				table.remove(equation, #equation - 1)
 			end
 		elseif events[2] == 28 or events[2] == 156 then
-			if equation[#equation-1] == "+" or
-				equation[#equation-1] == "-" or
-				equation[#equation-1] == "*" or
-				equation[#equation-1] == "/" then
+			if equation[#equation - 1] == "+" or
+				equation[#equation - 1] == "-" or
+				equation[#equation - 1] == "*" or
+				equation[#equation - 1] == "/" then
 				table.insert(equation, #equation, "0")
-			elseif equation[#equation-1] == "^" then
+			elseif equation[#equation - 1] == "^" then
 				table.insert(equation, #equation, "1")
 			end
 			for i, v in pairs(calc) do
